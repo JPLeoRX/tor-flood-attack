@@ -22,7 +22,7 @@ sed -i "s/.*\[::1\]:8118/# &/" /etc/privoxy/config
 # Start privoxy
 service privoxy start
 sleep 1
-service tor status
+service privoxy status
 sleep 1
 
 # Launch script

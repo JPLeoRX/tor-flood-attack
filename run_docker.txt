@@ -2,4 +2,7 @@
 docker build -t tor-ddos-attack-image .
 
 # Run (local)
-docker run --name=tor-ddos-attack --rm -ti -p 9000:9000 tor-ddos-attack-image
+docker run --name=tor-ddos-attack-1 --rm -ti tor-ddos-attack-image
+docker run --name=tor-ddos-attack-2 --rm -ti tor-ddos-attack-image
+docker run --name=tor-ddos-attack-3 --rm -ti tor-ddos-attack-image
+docker run --name=tor-ddos-attack-4 --rm -ti tor-ddos-attack-image
