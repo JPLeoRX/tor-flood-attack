@@ -1,0 +1,5 @@
+# Build
+docker build -t tor-ddos-attack-image .
+
+# Run (local)
+docker run --name=tor-ddos-attack --rm -ti -p 9000:9000 tor-ddos-attack-image
