@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  tor-ddos-attack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 30
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s

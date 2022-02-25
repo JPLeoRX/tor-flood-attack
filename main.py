@@ -9,6 +9,8 @@ from user_agent import generate_user_agent
 
 
 def switch_tor_ip():
+    time.sleep(1)
+
     with Controller.from_port(port=9051) as controller:
         controller.authenticate(password='my password')
         controller.signal(Signal.NEWNYM)
@@ -90,6 +92,9 @@ for i in range(0, 100):
         "http://www.vesti.ru",
         "http://www.smotrim.ru",
         "http://www.vgtrk.ru",
+        "https://www.kommersant.ru",
+        "https://www.kp.ru/",
+        "https://rg.ru/",
         "http://lenta.ru",
         "http://gosuslugi.ru",
         "http://194.54.14.168",
@@ -99,4 +104,8 @@ for i in range(0, 100):
     ])
     print('Ended batch #' + str(i))
     switch_tor_ip()
-    print("This is your new TOR IP address:", request_get_with_tor('https://api.myip.com/'))
+    try:
+        print("This is your new TOR IP address:", request_get_with_tor('https://api.myip.com/'))
+    except:
+        print("Failed to check new TOR IP address, switching one more time")
+        switch_tor_ip()
