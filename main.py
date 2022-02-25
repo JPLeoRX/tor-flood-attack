@@ -78,10 +78,14 @@ time.sleep(15)
 for i in range(0, 100):
     print('Started batch #' + str(i))
     time.sleep(1)
+
+    # This is a sample list of URLs taken from a chat group
+    # RUN THIS AT YOUR OWN RISK
+    # This project was intended only for educational / experimental purposes
     batch_request_get_with_tor([
         #"http://www.rt.com",
-        "http://rbc.ru",
         #"http://www.cbr.ru",
+        "http://rbc.ru",
         "http://www.kremlin.ru",
         "http://www.vesti.ru",
         "http://www.smotrim.ru",
@@ -90,6 +94,8 @@ for i in range(0, 100):
         "http://gosuslugi.ru",
         "http://194.54.14.168",
         "https://www.sberbank.ru/ru/person",
+        "http://194.54.14.131",
+        "https://online.sberbank.ru",
     ])
     print('Ended batch #' + str(i))
     switch_tor_ip()
