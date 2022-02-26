@@ -1,0 +1,13 @@
+# Run (local)
+docker build -t tor-flood-attack-image .
+docker run --name=tor-flood-attack-1 --rm -ti tor-flood-attack-image
+docker run --name=tor-flood-attack-2 --rm -ti tor-flood-attack-image
+docker run --name=tor-flood-attack-3 --rm -ti tor-flood-attack-image
+docker run --name=tor-flood-attack-4 --rm -ti tor-flood-attack-image
+docker run --name=tor-flood-attack-5 --rm -ti tor-flood-attack-image
+docker run --name=tor-flood-attack-6 --rm -ti tor-flood-attack-image
+
+# Run (compose)
+docker-compose up --build -d
+docker-compose logs -f -t
+docker-compose down
