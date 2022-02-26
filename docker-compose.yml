@@ -5,6 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     deploy:
-      replicas: 16
+      replicas: 12
       restart_policy:
         condition: any
