@@ -25,7 +25,7 @@ RUN echo "alias pip='pip3'" >> ~/.bashrc
 # Python Dependencies
 RUN pip3 install requests==2.25.1
 RUN pip3 install stem==1.8.0
-RUN pip3 install user-agent
+RUN pip3 install user-agent==0.1.10
 
 # Additional dependencies
 RUN apt-get install -y curl

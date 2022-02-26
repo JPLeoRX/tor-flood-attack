@@ -11,9 +11,9 @@ tail -n 3 /etc/tor/torrc
 
 # Start tor
 service tor start
-sleep 5
+sleep 1
 service tor status
-sleep 5
+sleep 1
 
 # Configure privoxy
 echo "forward-socks5t / 127.0.0.1:9050 ." >> /etc/privoxy/config
@@ -21,9 +21,9 @@ sed -i "s/.*\[::1\]:8118/# &/" /etc/privoxy/config
 
 # Start privoxy
 service privoxy start
-sleep 5
+sleep 1
 service privoxy status
-sleep 5
+sleep 1
 
 # Launch script
-python3 -u main.py
+python3 -u v2.py
