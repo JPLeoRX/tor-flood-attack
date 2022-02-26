@@ -36,9 +36,9 @@ RUN apt-get install -y privoxy
 RUN privoxy --version
 
 # Copy app
-RUN mkdir /tor-ddos-attack-service
-COPY . /tor-ddos-attack-service
-WORKDIR /tor-ddos-attack-service
+RUN mkdir /tor-flood-attack-service
+COPY . /tor-flood-attack-service
+WORKDIR /tor-flood-attack-service
 RUN chmod a+x run.sh
 
 # Run

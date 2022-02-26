@@ -1,7 +1,9 @@
 version: "3.9"
 services:
-  tor-ddos-attack:
-    image: tor-ddos-attack-image:latest
+  tor-flood-attack:
+    build:
+      context: .
+      dockerfile: Dockerfile
     deploy:
       replicas: 16
       restart_policy:

@@ -10,7 +10,6 @@ docker run --name=tor-ddos-attack-5 --rm -ti tor-ddos-attack-image
 docker run --name=tor-ddos-attack-6 --rm -ti tor-ddos-attack-image
 
 # Run (compose)
-docker build -t tor-ddos-attack-image:latest .
-docker-compose up -d
+docker-compose up --build -d
 docker-compose logs -f -t
 docker-compose down
