@@ -121,7 +121,13 @@ LIST_OF_URLS = [
     "https://spb.mts.ru/business/mobilnaya-svyaz/korporativnie-tarifi-i-opcii/umnij_business_m",
     "https://spb.mts.ru/business/svyaz/specialnie-predlozheniya/rekomenduem/biznes-abonement",
     "https://www.mtsbank.ru/chastnim-licam/karti/credit-mts-cashback/?utm_source=mtsru&utm_medium=partner&utm_campaign=menu_finuslugi&utm_content=cc_cashback",
-    "https://shop.mts.ru/catalog/smartfony/xiaomi/?utm_source=mts_ru&utm_medium=ref&utm_campaign=inhouse_shop&utm_content=header&utm_term=smartfony_xiaomi&utm_referrer=https%3A%2F%2Fspb.mts.ru%2Fpersonal"
+    "https://shop.mts.ru/catalog/smartfony/xiaomi/?utm_source=mts_ru&utm_medium=ref&utm_campaign=inhouse_shop&utm_content=header&utm_term=smartfony_xiaomi&utm_referrer=https%3A%2F%2Fspb.mts.ru%2Fpersonal",
+    "http://212.193.147.0",
+    "http://vsrf.ru",
+    "http://95.173.156.120:80",
+    "https://maxima-logistic.ru/",
+    "https://maxima-logistic.ru/company/news/company/6291/",
+    "https://maxima-logistic.ru/personal/auth/",
 ]
 
 # How many cycles (epochs) of attacks should be performed
