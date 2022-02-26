@@ -126,7 +126,7 @@ LIST_OF_URLS = [
 
 # How many cycles (epochs) of attacks should be performed
 # This value can be ignored, you can control the attack by stopping docker-compose at any time
-NUMBER_OF_EPOCHS = 10
+NUMBER_OF_EPOCHS = 20
 
 # How many URLs from your list will be attacked in parallel
 PARALLEL_LIST_OF_URLS_WORKERS = 2
