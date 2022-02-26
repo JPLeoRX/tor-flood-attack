@@ -1,3 +1,8 @@
+# Tor Flood Attack 
+This is an example of how we can orchestrate an HTTP flood attack. We provide a python script that launches parallel requests to target URLs while being covered by TOR proxy. We also provide a docker image wraped over this script, and a scalable docker-compose configuration. 
+
+This project was designed and intended for educational purposes only. All examples and targets were selected randomly. Use this at yout own risk. This repository may be deleted at any time, please make local backups if needed accordingly.
+
 # Configuration
 Before launching this I highly suggest you to get familiar with how things can be adjusted in this script.
 
