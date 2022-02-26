@@ -48,6 +48,8 @@ TOR_CHANGE_IP_LOCK = threading.Lock()
 
 # Change configuration here
 #-----------------------------------------------------------------------------------------------------------------------
+# A list of urls that need to be attacked
+# Please note that all of them are either "http" or "https"
 LIST_OF_URLS = [
     "http://www.rt.com",
     "https://russian.rt.com/",
@@ -82,11 +84,23 @@ LIST_OF_URLS = [
     "https://zakupki.gov.ru/",
 ]
 
+# How many cycles (epochs) of attacks should be performed
+# This value can be ignored, you can control the attack by stopping docker-compose at any time
 NUMBER_OF_EPOCHS = 10
+
+# How many URLs from your list will be attacked in parallel
 PARALLEL_LIST_OF_URLS_WORKERS = 2
+
+# Min/max values that determine how many requests can be simultaneously sent to a single URL
 PARALLEL_SINGLE_URL_MIN_REQUESTS = 150
 PARALLEL_SINGLE_URL_MAX_REQUESTS = 400
+
+# How many requests on the same URL will be processed in parallel
 PARALLEL_SINGLE_URL_WORKERS = 50
+
+# Should we use tor?
+# The default values is True, and we will print out warnings if you disable it
+# Use at your own risk, only if you know what you're doing
 ENABLE_TOR = True
 #-----------------------------------------------------------------------------------------------------------------------
 
