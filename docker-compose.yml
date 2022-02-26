@@ -8,5 +8,3 @@ services:
       replicas: 16
       restart_policy:
         condition: any
-        delay: 15s
-        window: 60s

@@ -28,8 +28,6 @@ services:
       replicas: 16
       restart_policy:
         condition: any
-        delay: 15s
-        window: 60s
 ```
 
 Now for more in-depth tweaking - go to `main.py`, and look for these variables:

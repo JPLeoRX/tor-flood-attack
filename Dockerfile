@@ -6,12 +6,16 @@ RUN apt-get update && apt-get upgrade -y
 
 # Install system utils
 RUN apt-get install -y apt-utils software-properties-common
-RUN apt-get install -y iputils-ping nmap
-RUN apt-get install -y vim wget git
+RUN apt-get install -y iputils-ping nmap netcat
+RUN apt-get install -y vim wget curl git
 
 # Install TOR
 RUN apt-get install -y tor
 RUN tor --version
+
+# Install privoxy
+RUN apt-get install -y privoxy
+RUN privoxy --version
 
 # Install Python 3.8 & Pip 3
 WORKDIR /
@@ -26,14 +30,6 @@ RUN echo "alias pip='pip3'" >> ~/.bashrc
 RUN pip3 install requests==2.25.1
 RUN pip3 install stem==1.8.0
 RUN pip3 install user-agent==0.1.10
-
-# Additional dependencies
-RUN apt-get install -y curl
-RUN apt-get install -y netcat
-
-# Install privoxy
-RUN apt-get install -y privoxy
-RUN privoxy --version
 
 # Copy app
 RUN mkdir /tor-flood-attack-service
