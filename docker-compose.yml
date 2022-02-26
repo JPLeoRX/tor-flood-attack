@@ -3,7 +3,7 @@ services:
   tor-ddos-attack:
     image: tor-ddos-attack-image:latest
     deploy:
-      replicas: 40
+      replicas: 16
       restart_policy:
         condition: any
         delay: 15s
