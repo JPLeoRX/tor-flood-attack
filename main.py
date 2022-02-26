@@ -113,6 +113,15 @@ LIST_OF_URLS = [
     "https://www.aeroflot.ru/personal/cargo_tracking?_preferredLanguage=en",
     "https://www.aeroflot.ru/ru-ru/news/62263?from=new_main",
     "https://www.aeroflot.ru/sb/app/xx-en#/search?extended=false&adults=5&children=0&infants=0&award=N&cabin=econom&autosearch=Y&use_voucher=N&routes=MOW.20220317.LED-LED.20220422.MOW&_k=2ns9j8",
+    "https://login.mts.ru/",
+    "https://mts.ru/",
+    "https://moskva.mts.ru/personal",
+    "https://spb.mts.ru/personal",
+    "https://lk.spb.mts.ru/api.php?r=site/login",
+    "https://spb.mts.ru/business/mobilnaya-svyaz/korporativnie-tarifi-i-opcii/umnij_business_m",
+    "https://spb.mts.ru/business/svyaz/specialnie-predlozheniya/rekomenduem/biznes-abonement",
+    "https://www.mtsbank.ru/chastnim-licam/karti/credit-mts-cashback/?utm_source=mtsru&utm_medium=partner&utm_campaign=menu_finuslugi&utm_content=cc_cashback",
+    "https://shop.mts.ru/catalog/smartfony/xiaomi/?utm_source=mts_ru&utm_medium=ref&utm_campaign=inhouse_shop&utm_content=header&utm_term=smartfony_xiaomi&utm_referrer=https%3A%2F%2Fspb.mts.ru%2Fpersonal"
 ]
 
 # How many cycles (epochs) of attacks should be performed
