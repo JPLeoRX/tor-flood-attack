@@ -51,6 +51,8 @@ async def http_get_with_aiohttp(session: ClientSession, url: str, headers: Dict 
         return (HTTP_STATUS_CODE_EXCEPTION_TIMEOUT, None, None)
     except aiohttp.client_exceptions.ClientHttpProxyError as e2:
         return (HTTP_STATUS_CODE_EXCEPTION_PROXY_ERROR, None, None)
+    except aiohttp.client_exceptions.ClientConnectorError as e3:
+        return (HTTP_STATUS_CODE_EXCEPTION_CONNECTION_ERROR, None, None)
     except Exception as e3:
         print(traceback.format_exc())
         return (0, None, None)
