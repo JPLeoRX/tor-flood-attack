@@ -13,7 +13,7 @@ services:
       PARALLEL_LIST_OF_URLS_WORKERS: 2
 
       # Min/max values that determine how many requests can be simultaneously sent to a single URL
-      PARALLEL_SINGLE_URL_MIN_REQUESTS: 150
+      PARALLEL_SINGLE_URL_MIN_REQUESTS: 350
       PARALLEL_SINGLE_URL_MAX_REQUESTS: 700
 
       # How many requests on the same URL will be processed in parallel
