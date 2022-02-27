@@ -197,14 +197,18 @@ async def epoch(epoch_number: int):
     # Open session
     session = ClientSession()
 
-    # Check IP
-    await check_my_ip_with_tor(session)
-
     # Randomize links
     random.shuffle(LIST_OF_HEADERS)
 
     # For each target
-    for target_url in LIST_OF_URLS:
+    for i in range(0, len(LIST_OF_URLS)):
+        # Get URL
+        target_url = LIST_OF_URLS[i]
+
+        # If needed - change IP
+        if i % 4 == 0:
+            change_ip_tor()
+            await check_my_ip_with_tor(session)
 
         # Gen headers and proxy
         headers = random.choice(LIST_OF_HEADERS)
@@ -222,9 +226,6 @@ async def epoch(epoch_number: int):
 
     # Close session
     await session.close()
-
-    # Switch tor IP
-    change_ip_tor()
 
 
 async def main():
