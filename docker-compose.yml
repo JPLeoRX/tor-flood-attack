@@ -7,14 +7,14 @@ services:
     environment:
       # How many cycles (epochs) of attacks should be performed
       # This value can be ignored, you can control the attack by stopping docker-compose at any time
-      NUMBER_OF_EPOCHS: 20
+      NUMBER_OF_EPOCHS: 40
 
       # How many URLs from your list will be attacked in parallel
       PARALLEL_LIST_OF_URLS_WORKERS: 2
 
       # Min/max values that determine how many requests can be simultaneously sent to a single URL
-      PARALLEL_SINGLE_URL_MIN_REQUESTS: 400
-      PARALLEL_SINGLE_URL_MAX_REQUESTS: 600
+      PARALLEL_SINGLE_URL_MIN_REQUESTS: 150
+      PARALLEL_SINGLE_URL_MAX_REQUESTS: 700
 
       # How many requests on the same URL will be processed in parallel
       PARALLEL_SINGLE_URL_WORKERS: 50
@@ -25,6 +25,6 @@ services:
       ENABLE_TOR: 1
     deploy:
       # How scaled this attack is, how many replicas of this container should be deployed
-      replicas: 1
+      replicas: 12
       restart_policy:
         condition: any
