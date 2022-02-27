@@ -30,6 +30,8 @@ RUN echo "alias pip='pip3'" >> ~/.bashrc
 RUN pip3 install requests==2.25.1
 RUN pip3 install stem==1.8.0
 RUN pip3 install user-agent==0.1.10
+RUN pip3 install tekleo-common-utils==0.0.0.2
+RUN pip3 install aiohttp==3.8.1
 
 # Copy app
 RUN mkdir /tor-flood-attack-service
