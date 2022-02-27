@@ -3,6 +3,9 @@ This is an example of how we can orchestrate an HTTP flood attack. We provide a 
 
 This project was designed and intended for educational purposes only. All examples and targets were selected randomly. Use this at yout own risk. This repository may be deleted at any time, please make local backups if needed accordingly.
 
+# Prerequisites
+Obviously you need to install [Docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/). Have a good bandwidth, and preferably a good CPU as we rely heavily on parallel HTTP requests here. 
+
 # Configuration
 Before launching this I highly suggest you to get familiar with how things can be adjusted in this script.
 
