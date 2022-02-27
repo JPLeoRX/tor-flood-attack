@@ -26,4 +26,4 @@ service privoxy status
 sleep 5
 
 # Launch script
-python3 -u compare_request_speed.py
+python3 -u main_aiohttp.py
