@@ -39,6 +39,7 @@ HTTP_STATUS_CODE_EXCEPTION_READ_TIMEOUT = -5000
 HTTP_STATUS_CODE_EXCEPTION_TOO_MANY_REDIRECTS = -6000
 HTTP_STATUS_CODE_EXCEPTION_TIMEOUT = -7000
 HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR = -8000
+HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR = -9000
 
 
 TOR_CHANGE_IP_LOCK = threading.Lock()
@@ -56,6 +57,8 @@ async def http_get_with_aiohttp(session: ClientSession, url: str, headers: Dict 
         return (HTTP_STATUS_CODE_EXCEPTION_CONNECTION_ERROR, None, None)
     except aiohttp.client_exceptions.ServerDisconnectedError as e4:
         return (HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR, None, None)
+    except aiohttp.client_exceptions.ClientOSError as e5:
+        return (HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR, None, None)
     except Exception as e3:
         print(traceback.format_exc())
         return (0, None, None)
@@ -104,6 +107,7 @@ def debug_stats(url: str, results: List[Tuple[int, Dict[str, Any], bytes]], t: f
     too_many_redirects = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_TOO_MANY_REDIRECTS])
     timeouts = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_TIMEOUT])
     server_disconnected_error = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR])
+    client_os_error = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR])
 
     print('debug_stats(): Total responses count: ' + str(len(results)))
     if success_responses > 0:
@@ -137,6 +141,8 @@ def debug_stats(url: str, results: List[Tuple[int, Dict[str, Any], bytes]], t: f
         print('debug_stats(): Timeouts (by client): ' + str(timeouts))
     if server_disconnected_error > 0:
         print('debug_stats(): Server disconnected (by client): ' + str(server_disconnected_error))
+    if client_os_error > 0:
+        print('debug_stats(): Client OS error (by client): ' + str(client_os_error))
 
     print('debug_stats(): Execution time is ' + str(round(t, 2)) + ' s,' + ' speed is ' + str(round(len(results) / t, 2)) + ' r/s')
     print('debug_stats(): ')
