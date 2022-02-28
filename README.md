@@ -94,6 +94,9 @@ To stop and kill all containers:
 docker-compose down
 ```
 
+# Side-note: Running with another VPN
+If your host machine is already connected to a VPN, with all outgoing traffic forwarded though VPN - all Docker traffic will be forwarded as well. So you don't need to use TOR in this container, you can rely on your host's VPN. 
+
 # Links
 In case you’d like to check my other work or contact me:
 * [Personal website](https://tekleo.net/)
