@@ -66,7 +66,13 @@ replicas: 2
 Always monitor your hardware, tweak these settings and squeeze the most requests that your network can handle.
 
 # Running
-Launching this script is fairly straight forward - navigate to the project's root folder and just run docker-compose.
+Launching this script is fairly straight forward - clone the repository, navigate to the project's root folder and just run docker-compose.
+
+Clone this repository
+```shell script
+git clone https://github.com/JPLeoRX/tor-flood-attack.git
+cd tor-flood-attack
+```
 
 Start the containers with scripts via:
 ```shell script
