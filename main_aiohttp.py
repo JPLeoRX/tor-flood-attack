@@ -40,6 +40,7 @@ HTTP_STATUS_CODE_EXCEPTION_TOO_MANY_REDIRECTS = -6000
 HTTP_STATUS_CODE_EXCEPTION_TIMEOUT = -7000
 HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR = -8000
 HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR = -9000
+HTTP_STATUS_CODE_EXCEPTION_CLIENT_RESPONSE_ERROR = -10000
 
 TOR_CHANGE_IP_LOCK = threading.Lock()
 #-----------------------------------------------------------------------------------------------------------------------
@@ -98,6 +99,8 @@ async def http_get_with_aiohttp(session: ClientSession, url: str, headers: Dict 
         return (HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR, None, None)
     except aiohttp.client_exceptions.ClientOSError as e5:
         return (HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR, None, None)
+    except aiohttp.client_exceptions.ClientResponseError as e6:
+        return (HTTP_STATUS_CODE_EXCEPTION_CLIENT_RESPONSE_ERROR, None, None)
     except Exception as e3:
         print(traceback.format_exc())
         return (0, None, None)
@@ -147,6 +150,7 @@ def debug_stats(url: str, results: List[Tuple[int, Dict[str, Any], bytes]], t: f
     timeouts = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_TIMEOUT])
     server_disconnected_error = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_SERVER_DISCONNECTED_ERROR])
     client_os_error = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_CLIENT_OS_ERROR])
+    client_response_error = len([r for r in results if r[0] == HTTP_STATUS_CODE_EXCEPTION_CLIENT_RESPONSE_ERROR])
 
     print('debug_stats(): Total responses count: ' + str(len(results)))
     if success_responses > 0:
@@ -182,6 +186,8 @@ def debug_stats(url: str, results: List[Tuple[int, Dict[str, Any], bytes]], t: f
         print('debug_stats(): Server disconnected (by client): ' + str(server_disconnected_error))
     if client_os_error > 0:
         print('debug_stats(): Client OS error (by client): ' + str(client_os_error))
+    if client_response_error > 0:
+        print('debug_stats(): Client response error (by client): ' + str(client_response_error))
 
     print('debug_stats(): Execution time is ' + str(round(t, 2)) + ' s,' + ' speed is ' + str(round(len(results) / t, 2)) + ' r/s')
     print('debug_stats(): ')
