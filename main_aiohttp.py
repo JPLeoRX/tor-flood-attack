@@ -210,6 +210,11 @@ async def check_my_ip_with_tor(session: ClientSession) -> (int, Dict[str, Any], 
     result = await http_get_with_aiohttp(session, 'https://api.myip.com/', proxy="http://127.0.0.1:8118")
     print("check_my_ip_with_tor(): Your current TOR IP address: " + str(result))
     return result
+
+async def check_my_ip_without_tor(session: ClientSession) -> (int, Dict[str, Any], bytes):
+    result = await http_get_with_aiohttp(session, 'https://api.myip.com/')
+    print("check_my_ip_without_tor(): Your current IP address: " + str(result))
+    return result
 #-----------------------------------------------------------------------------------------------------------------------
 
 
@@ -243,6 +248,7 @@ async def epoch(epoch_number: int):
             proxy = "http://127.0.0.1:8118"
         else:
             print('epoch(): WARNING!!!! TOR is disabled!!!!')
+            await check_my_ip_without_tor(session)
 
         # Determine how many requests we need to make
         number_of_requests = random.randint(PARALLEL_SINGLE_URL_MIN_REQUESTS, PARALLEL_SINGLE_URL_MAX_REQUESTS)
