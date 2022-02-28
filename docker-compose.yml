@@ -10,6 +10,7 @@ services:
       NUMBER_OF_EPOCHS: 100
 
       # Min/max values that determine how many requests can be simultaneously sent to a single URL
+      # Actual number of requests is always randomly generated, bound between these two numbers
       PARALLEL_SINGLE_URL_MIN_REQUESTS: 200
       PARALLEL_SINGLE_URL_MAX_REQUESTS: 700
 
@@ -18,7 +19,7 @@ services:
       # Use at your own risk, only if you know what you're doing
       ENABLE_TOR: 1
 
-      # How often should new TOR identity be generated? Default value - every 4 batches of requests (every 4 URLs)
+      # How often should new TOR identity be generated? Default value - every 6 batches of requests (every 6 URLs)
       # Use 0 or -1 to disable IP change
       TOR_IP_CHANGE_FREQUENCY: 6
     deploy:
