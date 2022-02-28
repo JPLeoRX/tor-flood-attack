@@ -20,9 +20,9 @@ services:
 
       # How often should new TOR identity be generated? Default value - every 4 batches of requests (every 4 URLs)
       # Use 0 or -1 to disable IP change
-      TOR_IP_CHANGE_FREQUENCY: 4
+      TOR_IP_CHANGE_FREQUENCY: 6
     deploy:
       # How scaled this attack is, how many replicas of this container should be deployed
-      replicas: 1
+      replicas: 12
       restart_policy:
         condition: any
