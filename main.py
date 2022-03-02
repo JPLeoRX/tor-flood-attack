@@ -79,7 +79,14 @@ async def epoch(epoch_number: int):
     # Load free proxies
     free_proxies = []
     if ENABLE_FREE_PROXY:
+        # Load proxies & if there's no available proxy - close session and exit
         free_proxies = await service_anonymity.get_free_proxies_working(session)
+        if len(free_proxies) == 0:
+            print('main.epoch(): WARNING!!! No available free proxy was found, skipping epoch ' + str(epoch_number))
+            delay = random.randint(4, 11)
+            time.sleep(delay)
+            await session.close()
+            return
 
     # Select proxy
     proxy = None
