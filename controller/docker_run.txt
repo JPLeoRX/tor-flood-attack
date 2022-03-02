@@ -1,0 +1,5 @@
+# Build
+docker build -t tor-flood-attack-controller-image .
+
+# Run (local)
+docker run --name=tor-flood-attack-controller --rm -ti -p 9000:9000 tor-flood-attack-controller-image
