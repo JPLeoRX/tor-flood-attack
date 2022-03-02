@@ -109,6 +109,15 @@ async def epoch(epoch_number: int):
     for t in LIST_OF_URLS:
         print('main.epoch(): Target ' + t)
 
+    # If no targets
+    if len(LIST_OF_URLS) == 0:
+        print('main.epoch(): WARNING!!! No available URLs found, skipping epoch ' + str(epoch_number))
+        delay = random.randint(20, 50)
+        time.sleep(delay)
+        await session.close()
+        return
+
+
     # Randomize links
     random.shuffle(LIST_OF_URLS)
 
