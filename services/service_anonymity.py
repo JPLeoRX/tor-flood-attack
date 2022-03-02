@@ -49,7 +49,7 @@ class ServiceAnonymity:
 
     async def get_free_proxies_working(self, session: ClientSession) -> List[str]:
         proxies = self.get_free_proxies_all()
-        results, t = await self.check_my_ip_parallel_for_proxies(session, proxies, debug=False, timeout=15)
+        results, t = await self.check_my_ip_parallel_for_proxies(session, proxies, debug=False, timeout=20)
 
         working_proxies = []
         for i in range(0, len(proxies)):
