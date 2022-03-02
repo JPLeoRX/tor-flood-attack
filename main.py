@@ -148,7 +148,7 @@ async def epoch(epoch_number: int):
         current_target_urls = [target_url for i in range(0, number_of_requests)]
 
         # Run requests
-        results, t = await service_aiohttp.http_get_with_aiohttp_parallel(session, current_target_urls, headers=headers, proxy=proxy, ignore_json=True, ignore_body=True)
+        results, t = await service_aiohttp.http_get_with_aiohttp_parallel(session, current_target_urls, headers=headers, proxy=proxy, timeout=15, ignore_json=True, ignore_body=True)
         service_aiohttp.debug_stats(target_url, results, t)
 
     # Close session
