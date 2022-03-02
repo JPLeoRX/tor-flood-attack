@@ -158,6 +158,11 @@ async def epoch(epoch_number: int):
 
 
 async def main():
+    # Initial delay to allow different pods to be out of synch
+    delay = random.randint(1, 11)
+    time.sleep(delay)
+
+    # Main attack loop
     for i in range(0, NUMBER_OF_EPOCHS):
         await epoch(i)
 
