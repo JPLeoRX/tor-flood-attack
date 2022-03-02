@@ -14,16 +14,18 @@ services:
       PARALLEL_SINGLE_URL_MIN_REQUESTS: 200
       PARALLEL_SINGLE_URL_MAX_REQUESTS: 700
 
-      # Should we use tor? (0 - no, 1 - yes)
-      # The default values is 1, and we will print out warnings if you disable it
-      # Use at your own risk, only if you know what you're doing
-      ENABLE_TOR: 1
+      # Should we use TOR proxy or free VPN proxy? (0 - no, 1 - yes)
+      # Obviously do not set them both to 1, this will make everything crash
+      # Set them both to 0 if you don't want to use any proxy
+      ENABLE_TOR_PROXY: 0
+      ENABLE_FREE_PROXY: 1
 
-      # How often should new TOR identity be generated? Default value - every 6 batches of requests (every 6 URLs)
+      # How often should new proxy identity be generated? Default value - every 6 batches of requests (every 6 URLs)
       # Use 0 or -1 to disable IP change
-      TOR_IP_CHANGE_FREQUENCY: 6
+      TOR_PROXY_IP_CHANGE_FREQUENCY: 6
+      FREE_PROXY_IP_CHANGE_FREQUENCY: 6
     deploy:
       # How scaled this attack is, how many replicas of this container should be deployed
-      replicas: 12
+      replicas: 1
       restart_policy:
         condition: any

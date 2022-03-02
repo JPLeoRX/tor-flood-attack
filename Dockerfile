@@ -1,5 +1,4 @@
-FROM ubuntu:20.04
-ENV TZ=UTC
+FROM python:3.8
 
 # Initial setup
 RUN apt-get update && apt-get upgrade -y
@@ -17,21 +16,16 @@ RUN tor --version
 RUN apt-get install -y privoxy
 RUN privoxy --version
 
-# Install Python 3.8 & Pip 3
-WORKDIR /
-RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get install -y python3.8
-RUN echo "alias python='python3.8'" >> ~/.bashrc
-RUN echo "alias python3='python3.8'" >> ~/.bashrc
-RUN apt-get install -y python3-pip
-RUN echo "alias pip='pip3'" >> ~/.bashrc
-
 # Python Dependencies
-RUN pip3 install requests==2.25.1
-RUN pip3 install stem==1.8.0
-RUN pip3 install user-agent==0.1.10
-RUN pip3 install tekleo-common-utils==0.0.0.2
-RUN pip3 install aiohttp==3.8.1
+RUN pip install requests==2.25.1
+RUN pip install injectable==3.4.4
+RUN pip install beautifulsoup4==4.9.3
+RUN pip install user-agent==0.1.10
+RUN pip install simplestr==0.5.0
+RUN pip install tekleo-common-utils==0.0.0.2
+RUN pip install omoide-cache==0.1.2
+RUN pip install stem==1.8.0
+RUN pip install aiohttp==3.8.1
 
 # Copy app
 RUN mkdir /tor-flood-attack-service

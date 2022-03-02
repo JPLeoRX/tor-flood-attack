@@ -6,7 +6,7 @@ service privoxy status
 # Configure tor
 echo "ControlPort 9051" >> /etc/tor/torrc
 echo "CookieAuthentication 0" >> /etc/tor/torrc
-echo HashedControlPassword $(tor --hash-password "my password" | tail -n 1) >> /etc/tor/torrc
+echo HashedControlPassword $(tor --hash-password "password" | tail -n 1) >> /etc/tor/torrc
 tail -n 3 /etc/tor/torrc
 
 # Start tor
@@ -26,4 +26,4 @@ service privoxy status
 sleep 5
 
 # Launch script
-python3 -u main_aiohttp.py
+python3 -u main.py
