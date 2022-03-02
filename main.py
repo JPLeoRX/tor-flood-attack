@@ -16,17 +16,22 @@ from stem.control import Controller
 from services.service_aiohttp import ServiceAiohttp
 from services.service_anonymity import ServiceAnonymity
 from services.service_free_proxy import ServiceFreeProxy
+from services.service_target import ServiceTarget
 
 # Services
 service_aiohttp = ServiceAiohttp()
 service_anonymity = ServiceAnonymity()
 service_free_proxy = ServiceFreeProxy()
+service_target = ServiceTarget()
 
 
 
 # Configuration
 #-------------------------------------------------------------------------------------------------------------------
 # Load configuration
+TARGETS_MODE = os.environ['TARGETS_MODE']
+TARGETS_FILE = os.environ['TARGETS_FILE']
+TARGETS_URL = os.environ['TARGETS_URL']
 NUMBER_OF_EPOCHS = int(os.environ['NUMBER_OF_EPOCHS'])
 PARALLEL_SINGLE_URL_MIN_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MIN_REQUESTS'])
 PARALLEL_SINGLE_URL_MAX_REQUESTS = int(os.environ['PARALLEL_SINGLE_URL_MAX_REQUESTS'])
@@ -39,14 +44,6 @@ FREE_PROXY_IP_CHANGE_FREQUENCY = int(os.environ['FREE_PROXY_IP_CHANGE_FREQUENCY'
 if ENABLE_TOR_PROXY and ENABLE_FREE_PROXY:
     print('INVALID CONFIGURATION!!!! You can\'t turn on both TOR proxy and free VPN proxy')
     exit(-1)
-
-# Load targets
-LIST_OF_URLS = []
-with open('targets.txt') as f:
-    lines = f.readlines()
-    lines = [l.strip() for l in lines]
-    lines = [l for l in lines if len(l) > 0]
-    LIST_OF_URLS.extend(lines)
 
 # Load randomized headers
 LIST_OF_HEADERS = service_anonymity.get_headers()
@@ -101,6 +98,16 @@ async def epoch(epoch_number: int):
 
     # Track errors
     check_my_ip_consecutive_errors = 0
+
+    # Load targets
+    LIST_OF_URLS = []
+    if TARGETS_MODE.lower() == 'url':
+        LIST_OF_URLS = service_target.get_targets_from_url(TARGETS_URL)
+    if TARGETS_MODE.lower() == 'file':
+        LIST_OF_URLS = service_target.get_targets_from_file(TARGETS_FILE)
+    print('main.epoch(): Loaded targets')
+    for t in LIST_OF_URLS:
+        print('main.epoch(): Target ' + t)
 
     # Randomize links
     random.shuffle(LIST_OF_URLS)

@@ -18,6 +18,8 @@ RUN privoxy --version
 
 # Python Dependencies
 RUN pip install requests==2.25.1
+RUN pip install fastapi==0.63.0
+RUN pip install uvicorn==0.13.3
 RUN pip install injectable==3.4.4
 RUN pip install beautifulsoup4==4.9.3
 RUN pip install user-agent==0.1.10

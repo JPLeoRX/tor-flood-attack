@@ -5,6 +5,12 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      # Source from where we can load targets
+      # Either a local file, or a controller endpoint
+      TARGETS_MODE: url
+      TARGETS_FILE: /app/targets.txt
+      TARGETS_URL: http://68.183.43.171:9000/targets
+
       # How many cycles (epochs) of attacks should be performed
       # This value can be ignored, you can control the attack by stopping docker-compose at any time
       NUMBER_OF_EPOCHS: 100
@@ -20,7 +26,7 @@ services:
       #
       # Prefer free VPN proxy when running on servers with low replicas count (less than 5)
       # Also lower parallel single url requests for free vpn
-      ENABLE_TOR_PROXY: 1
+      ENABLE_TOR_PROXY: 0
       ENABLE_FREE_PROXY: 0
 
       # How often should new proxy identity be generated? Default value - every 6 batches of requests (every 6 URLs)
