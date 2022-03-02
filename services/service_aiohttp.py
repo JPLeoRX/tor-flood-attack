@@ -104,7 +104,9 @@ class ServiceAiohttp:
             print('ServiceAiohttp.debug_stats(): Redirect responses: ' + str(redirect_responses))
 
         if client_error_responses > 0:
-            print('ServiceAiohttp.debug_stats(): Client error responses (4XX): ' + str(client_error_responses))
+            responses_4xx = [r for r in results if 400 <= r.status_code <= 499]
+            codes = set([r.status_code for r in responses_4xx])
+            print('ServiceAiohttp.debug_stats(): Client error responses (4XX): ' + str(client_error_responses) + ', codes ' + str(codes))
         if not_found_responses > 0:
             print('ServiceAiohttp.debug_stats(): Not found responses (' + str(HTTP_STATUS_CODE_NOT_FOUND) + '): ' + str(not_found_responses))
         if method_not_allowed_responses > 0:
