@@ -4,8 +4,6 @@ This was tested on Ubuntu 20.04, but should probably work on 18.04 as well.
 ## Update your system and install common libraries (optional)
 ```shell script
 apt-get update && apt-get upgrade -y
-
-apt-get update
 apt-get install -y ca-certificates curl gnupg lsb-release
 apt-get install -y apt-utils software-properties-common vim wget curl git
 apt-get install -y iputils-ping nmap netcat
@@ -32,24 +30,19 @@ chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-## Increase swap memory to 6GB (needed for almost any base-level servers)
+## Increase swap memory to 6GB (optional, but needed for almost any base-level servers)
 ```shell script
 sudo fallocate -l 6G /swapfile
-
 sudo chmod 600 /swapfile
-
 sudo mkswap /swapfile
-
 sudo swapon /swapfile
-
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-
 free -h
 ```
 
 ## Download and run Tor Flood Attack
 ```shell script
 git clone https://github.com/JPLeoRX/tor-flood-attack.git
-
+cd tor-flood-attack
 docker-compose up --build -d && docker-compose logs -f -t
 ```
