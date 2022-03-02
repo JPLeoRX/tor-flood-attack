@@ -1,5 +1,5 @@
 # Tor Flood Attack 
-This is a tool for orchestrating an HTTP flood attack. We provide a python script that launches parallel requests to target URLs while being covered by TOR proxy. We also provide a docker image wrapped over this script, and a scalable docker-compose configuration. 
+This is a tool for orchestrating an HTTP flood attack. We provide a python script that launches parallel requests to target URLs while being covered by TOR or free VPN proxy. We also provide a docker image wrapped over this script, and a scalable docker-compose configuration. 
 
 This project was designed and intended for educational purposes only. All examples and targets were selected randomly. Use this at yout own risk. This repository may be deleted at any time, please make local backups if needed accordingly.
 
@@ -35,14 +35,19 @@ services:
       PARALLEL_SINGLE_URL_MIN_REQUESTS: 200
       PARALLEL_SINGLE_URL_MAX_REQUESTS: 700
 
-      # Should we use tor? (0 - no, 1 - yes)
-      # The default values is 1, and we will print out warnings if you disable it
-      # Use at your own risk, only if you know what you're doing
-      ENABLE_TOR: 1
+      # Should we use TOR proxy or free VPN proxy? (0 - no, 1 - yes)
+      # Obviously do not set them both to 1, this will make everything crash
+      # Set them both to 0 if you don't want to use any proxy
+      #
+      # Prefer free VPN proxy when running on servers with low replicas count (less than 5)
+      # Also lower parallel single url requests for free vpn
+      ENABLE_TOR_PROXY: 1
+      ENABLE_FREE_PROXY: 0
 
-      # How often should new TOR identity be generated? Default value - every 6 batches of requests (every 6 URLs)
+      # How often should new proxy identity be generated? Default value - every 6 batches of requests (every 6 URLs)
       # Use 0 or -1 to disable IP change
-      TOR_IP_CHANGE_FREQUENCY: 6
+      TOR_PROXY_IP_CHANGE_FREQUENCY: 6
+      FREE_PROXY_IP_CHANGE_FREQUENCY: 6
     deploy:
       # How scaled this attack is, how many replicas of this container should be deployed
       replicas: 12
@@ -56,8 +61,10 @@ This setup has a potential to really warn up your hardware, please lower the set
 NUMBER_OF_EPOCHS: 10
 PARALLEL_SINGLE_URL_MIN_REQUESTS: 20
 PARALLEL_SINGLE_URL_MAX_REQUESTS: 100
-ENABLE_TOR: 1
-TOR_IP_CHANGE_FREQUENCY: 24
+ENABLE_TOR_PROXY: 0
+ENABLE_FREE_PROXY: 1
+TOR_PROXY_IP_CHANGE_FREQUENCY: 24
+FREE_PROXY_IP_CHANGE_FREQUENCY: 24
 ...
 replicas: 2
 ...
@@ -95,7 +102,7 @@ docker-compose down
 ```
 
 # Side-note: Running with another VPN
-If your host machine is already connected to a VPN, with all outgoing traffic forwarded though VPN - all Docker traffic will be forwarded as well. So you don't need to use TOR in this container, you can rely on your host's VPN. 
+If your host machine is already connected to a VPN, with all outgoing traffic forwarded though VPN - all Docker traffic will be forwarded as well. So you don't need to use TOR or free VPN in this container, you can rely on your own host's VPN. 
 
 # Links
 In case you’d like to check my other work or contact me:
